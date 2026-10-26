@@ -27,16 +27,16 @@ O sistema combina telemetria do ESP32, verificação de presença por câmera e 
 
 ## Capabilities and Constraints
 
-- Backend FastAPI, banco SQLite e frontend em HTML, CSS e JavaScript sem framework.
+- Backend FastAPI, banco SQLite e frontend em React + TypeScript + Tailwind + Motion (código em `web/`, build servido pelo FastAPI sem mudar o backend).
 - A interface consome as APIs existentes de salas, eventos, leituras, energia, agenda e equipamento.
 - O redesign deve preservar regras, endpoints, dados e comportamento funcional.
-- A página deve continuar leve, responsiva e utilizável sem dependências frontend externas.
+- A página deve continuar leve e responsiva; fontes e bibliotecas vão no build (nenhuma chamada a CDN em tempo de execução).
 - Estados importantes: ligado, desligado, sala vazia, temperatura acima do limite, dispositivo offline, câmera offline, carregamento, vazio e erro de conexão.
 
 ## Brand Commitments
 
 - Nome confirmado: SMAC — Sistema de Monitoramento de Ambiente na Cloud.
-- Direção aprovada pelo usuário: central de comando premium.
+- Direção aprovada pelo usuário: central de comando premium, em fundo branco, com animação.
 - O produto deve comunicar controle, eficiência energética, confiabilidade e monitoramento em tempo real.
 
 ## Evidence on Hand

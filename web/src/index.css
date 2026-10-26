@@ -1,0 +1,79 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    color-scheme: light;
+  }
+  body {
+    @apply bg-papel font-sans text-tinta antialiased;
+    font-feature-settings: 'ss01', 'cv11';
+    text-rendering: optimizeLegibility;
+  }
+  ::selection {
+    @apply bg-energia-suave text-tinta;
+  }
+  input[type='time']::-webkit-calendar-picker-indicator {
+    opacity: 0.45;
+    cursor: pointer;
+  }
+}
+
+@layer components {
+  /* esqueleto com brilho que atravessa — sem spinner genérico */
+  .esqueleto {
+    @apply relative overflow-hidden bg-nevoa;
+  }
+  .esqueleto::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, transparent, rgb(255 255 255 / 0.75), transparent);
+    animation: brilho 1.6s linear infinite;
+  }
+
+  /* entrada da malha em cascata (30 ms por sala, teto de 360 ms): só na
+     montagem, nunca bloqueia o clique */
+  .sala-entrada {
+    animation: sala-entra 420ms cubic-bezier(0.23, 1, 0.32, 1) backwards;
+    animation-delay: calc(min(var(--i, 0), 12) * 30ms);
+  }
+
+  /* hachura diagonal do cartão escuro (ideia do StatsBento). Anda um
+     período inteiro (14,14 px = 10 px na diagonal) e repete sem emenda */
+  .hachura {
+    background-image: repeating-linear-gradient(45deg, rgb(255 255 255 / 0.12) 0 1px, transparent 1px 10px);
+    animation: hachura-anda 6s linear infinite;
+  }
+}
+
+@keyframes hachura-anda {
+  to { background-position: 14.142px 0; }
+}
+
+@keyframes sala-entra {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.98);
+  }
+}
+
+@keyframes brilho {
+  from { transform: translateX(-100%); }
+  to { transform: translateX(100%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sala-entrada {
+    animation: sala-fade 200ms ease backwards;
+  }
+  .esqueleto::after,
+  .hachura {
+    animation: none;
+  }
+  @keyframes sala-fade {
+    from { opacity: 0; }
+  }
+}

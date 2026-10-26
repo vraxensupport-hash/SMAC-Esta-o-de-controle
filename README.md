@@ -49,8 +49,8 @@ troque `MINUTOS_COM_PESSOAS` e `MINUTOS_SEM_PESSOAS` por valores pequenos.
 |---------|-------|
 | `api.py` | o servidor: recebe dados, aplica as regras e a agenda |
 | `banco.py` | todas as funções que falam com o banco `smac.db` |
-| `templates/dashboard.html` | o site (estrutura e comportamento) |
-| `static/dashboard_style.css` | a aparência do site |
+| `web/` | o site em React (código-fonte: telas, componentes e animações) |
+| `templates/dashboard.html` + `static/app/` | o site já compilado, que a API entrega (gerado pelo `npm run build`) |
 | `simulador.py` | dispositivo de mentira de uma sala |
 | `camera.py` | conta as pessoas pela webcam |
 | `esp32/esp32_sala.ino` | código do ESP32 de verdade (um por sala) |
@@ -100,6 +100,40 @@ grave o ESP32 com `MODO_USB = true`, feche o Monitor Serial da Arduino IDE e rod
 ```bash
 python ponte_usb.py          # ESP32 na COM6, sala 101
 ```
+
+## O site (React)
+
+O painel é feito em **React + TypeScript + Tailwind**, com animações do
+**Motion**. O código fica em `web/`; o resultado compilado já vem pronto em
+`templates/dashboard.html` e `static/app/`, então **para só rodar o sistema
+não precisa de Node** — basta o passo a passo acima.
+
+Para mexer no visual (precisa do Node 20+):
+
+```bash
+cd web
+npm install        # uma vez só
+npm run dev        # abre em http://localhost:5173 (com a API rodando na 8000)
+npm run build      # gera de novo templates/dashboard.html e static/app/
+```
+
+Onde fica cada coisa em `web/src/`:
+
+```
+App.tsx            monta a página
+hooks/             useCampus (busca a API a cada 3 s), relógio, media query
+lib/               api.ts (endereços da API), formato.ts (textos e estados), movimento.ts (curvas e durações)
+components/
+  layout/          topo, rodapé, carregando e sem conexão
+  campus/          cartão "Campus agora", mapa de pontos, barras por bloco
+  salas/           malha de salas, filtros e busca
+  eventos/         registro operacional
+  painel/          painel da sala, gráfico de temperatura, faixa de horário
+  ui/              peças reaproveitáveis (moldura, botão, abas, marca)
+  fx/              efeitos animados (odômetro, número animado, luz na borda)
+```
+
+A versão anterior (HTML puro, tema escuro) está guardada em `legado/`.
 
 ## Endereços da API (para explicar no relatório)
 

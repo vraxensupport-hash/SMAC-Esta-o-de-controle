@@ -4,3 +4,10 @@ __pycache__/
 .venv-1/
 smac.db
 ponte_usb.py
+
+# frontend React (web/)
+web/node_modules/
+
+# capturas de teste do navegador
+.playwright-cli/
+output/
