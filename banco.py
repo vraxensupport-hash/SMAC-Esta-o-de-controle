@@ -15,11 +15,14 @@ Tabelas:
   eventos  -> tudo o que aconteceu (ligou, desligou, sala vazia...)
 """
 
+import os
 import sqlite3
 from datetime import datetime
 
 # Nome do arquivo do banco. Fica na mesma pasta do projeto.
-ARQUIVO_BANCO = "smac.db"
+# No Vercel a pasta do projeto e so leitura: la o banco vai para /tmp
+# (e temporario — some quando o servidor reinicia).
+ARQUIVO_BANCO = "/tmp/smac.db" if os.environ.get("VERCEL") else "smac.db"
 
 # Quantas salas cada bloco tem. A letra do bloco define a centena:
 # Bloco A -> 101, 102...   Bloco B -> 201, 202...   Bloco F -> 601, 602...

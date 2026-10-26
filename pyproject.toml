@@ -1,0 +1,13 @@
+# Usado pelo deploy no Vercel. Para rodar no computador continue usando
+# "pip install -r requirements.txt" (que traz também câmera e simulador).
+[project]
+name = "smac"
+version = "1.0.0"
+description = "SMAC - Sistema de Monitoramento de Ambiente na Cloud"
+requires-python = ">=3.10"
+# só o que a API precisa; opencv (câmera) e pyserial (ponte USB) rodam
+# no computador da sala, não no servidor
+dependencies = ["fastapi"]
+
+[tool.vercel]
+entrypoint = "api:app"
