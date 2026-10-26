@@ -22,7 +22,6 @@ Feito com FastAPI. Para rodar:
 Depois abra http://127.0.0.1:8000 no navegador.
 """
 
-import os
 import threading
 import time
 from datetime import datetime, timedelta
@@ -224,16 +223,8 @@ def para_o_painel(sala):
 # ---------------------------------------------------------------------------
 app = FastAPI(title="SMAC - Sistema de Monitoramento de Ambiente na Cloud")
 
-# Pasta do projeto, para achar static/ e templates/ de qualquer lugar
-PASTA = os.path.dirname(os.path.abspath(__file__))
-
-# Arquivos do site (React compilado) ficam na pasta static/
-app.mount("/static", StaticFiles(directory=os.path.join(PASTA, "static")), name="static")
-
-# Em servidores serverless (Vercel) o "startup" nem sempre roda antes da
-# primeira requisicao; preparar o banco aqui garante as tabelas. Pode rodar
-# mais de uma vez sem problema (so cria o que ainda nao existe).
-banco.iniciar_banco()
+# Arquivos de aparencia do site (CSS) ficam na pasta static/
+app.mount("/static", StaticFiles(directory="static"), name="static")
 
 
 @app.on_event("startup")
@@ -358,5 +349,5 @@ def informar_presenca(numero: str, presenca: Presenca):
 @app.get("/", response_class=HTMLResponse)
 def painel():
     """Serve a pagina do painel (o arquivo templates/dashboard.html)."""
-    with open(os.path.join(PASTA, "templates", "dashboard.html"), "r", encoding="utf-8") as arquivo:
+    with open("templates/dashboard.html", "r", encoding="utf-8") as arquivo:
         return arquivo.read()
